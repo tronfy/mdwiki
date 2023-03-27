@@ -134,11 +134,15 @@ fn build_links(xml: &String) -> String {
 
 fn build_macros(xml: &String) -> String {
     lazy_static! {
-        static ref MACRO: Regex = Regex::new(r"\{\{.+?\}\}").unwrap();
+        // static ref MACRO: Regex = Regex::new(r"\{\{.+?\}\}").unwrap();
+        static ref MACRO: Regex = RegexBuilder::new(r"\{\{.+?\}\}")
+            .dot_matches_new_line(true)
+            .build()
+            .unwrap();
     }
 
     // todo
-    let xml = MACRO.replace_all(&xml, "{}");
+    let xml = MACRO.replace_all(&xml, "");
 
     xml.to_string()
 }
